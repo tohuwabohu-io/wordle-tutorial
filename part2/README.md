@@ -1,5 +1,5 @@
 wordle-tutorial part2
-part 2 of the [fancy-hangman tutorial](https://www.tohuwabohu.io/2022/06/building-a-cli-wordle-game-in-rust-part-2/)
+part 2 of the [fancy-hangman tutorial](https://www.tohuwabohu.io/2022/06/building-a-cli-wordle-game-in-rust-part-2/) 
 
 fancy-hangman-rs is a wordle inspired word guessing game for the CLI written in rust.
 
