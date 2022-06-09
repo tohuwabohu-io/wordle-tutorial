@@ -1,5 +1,5 @@
-# fancy-hangman-part1
-part 1 of the [fancy-hangman tutorial](https://www.tohuwabohu.io/?p=134)
+# fancy-hangman-part3
+part 3 of the [fancy-hangman tutorial](https://www.tohuwabohu.io/2022/06/building-a-cli-wordle-game-in-rust-part-3/)
 
 fancy-hangman-rs is a wordle inspired word guessing game for the CLI written in rust.
 
