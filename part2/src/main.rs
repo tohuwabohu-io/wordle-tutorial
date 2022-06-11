@@ -3,35 +3,35 @@ use colored::*;
 use std::io::{BufRead, BufReader, stdin, Result};
 use rand::seq::IteratorRandom;
 
-/// Provides basic functions for reading and writing from and to a word base
-pub trait WordBase {
-    fn get_random_word(&self) -> Option<WordEntry>;
-    fn find_word(&self, text: &str) -> Option<WordEntry>;
+/// Provides basic functions for reading and writing from and to a dictionary
+pub trait Dictionary {
+    fn get_random_word(&self) -> Option<DictionaryEntry>;
+    fn find_word(&self, text: &str) -> Option<DictionaryEntry>;
 }
 
-/// Provides a word base represented by a text file
-pub struct TextWordBase {
-    pub wordbase_file_path: String
+/// Provides a dictionary represented by a text file
+pub struct TextDictionary {
+    pub dictionary_file_path: String
 }
 
-impl TextWordBase {
-    /// Creates word base based on the file given
+impl TextDictionary {
+    /// Creates dictionary based on the file given
     ///
     /// # Arguments
-    /// * `file_path` - A String representing the path to the word base file on the filesystem
-    pub fn new(file_path: String) -> TextWordBase {
-        TextWordBase { wordbase_file_path: file_path }
+    /// * `file_path` - A String representing the path to the dictionary file on the filesystem
+    pub fn new(file_path: String) -> TextDictionary {
+        TextDictionary { dictionary_file_path: file_path }
     }
 }
 
-pub struct WordEntry {
+pub struct DictionaryEntry {
     word: String
 }
 
-impl WordBase for TextWordBase {
-    /// Get [Word] from a random line of the wordbase using reservoir sampling
-    fn get_random_word(&self) -> Option<WordEntry> {
-        let file_result = File::open(&self.wordbase_file_path);
+impl Dictionary for TextDictionary {
+    /// Get [DictionaryEntry] from a random line of the dictionary using reservoir sampling
+    fn get_random_word(&self) -> Option<DictionaryEntry> {
+        let file_result = File::open(&self.dictionary_file_path);
 
         match file_result {
             Ok(file) => {
@@ -42,31 +42,31 @@ impl WordBase for TextWordBase {
                     .choose(&mut rand::thread_rng());
 
                 match random_line {
-                    Some(line) => Some(WordEntry { word: line.unwrap() }),
+                    Some(line) => Some(DictionaryEntry { word: line.unwrap() }),
                     None => None
                 }
             }
             Err(e) => {
-                println!("Error reading from the wordbase:\n{}", e);
+                println!("Error reading from the dictionary:\n{}", e);
                 None
             }
         }
     }
 
-    /// Search the wordbase for a specific [WordEntry]
-    fn find_word(&self, text: &str) -> Option<WordEntry> {
-        let file_result: Result<File> = File::open(&self.wordbase_file_path);
+    /// Search the dictionary for a specific [DictionaryEntry]
+    fn find_word(&self, text: &str) -> Option<DictionaryEntry> {
+        let file_result: Result<File> = File::open(&self.dictionary_file_path);
 
         match file_result {
             Ok(file) => {
                 let buf_reader = BufReader::new(file);
-                let mut word_option: Option<WordEntry> = None;
+                let mut word_option: Option<DictionaryEntry> = None;
 
                 for line_result in buf_reader.lines() {
                     let line = line_result.unwrap();
 
                     if text.eq(line.trim()) {
-                        word_option = Some(WordEntry { word: String::from(line) });
+                        word_option = Some(DictionaryEntry { word: String::from(line) });
                         break;
                     }
                 }
@@ -74,7 +74,7 @@ impl WordBase for TextWordBase {
                 word_option
             }
             Err(error) => {
-                println!("Error when looking for '{}' in the wordbase:\n{}", text, error);
+                println!("Error when looking for '{}' in the dictionary:\n{}", text, error);
                 None
             }
         }
@@ -82,11 +82,11 @@ impl WordBase for TextWordBase {
 }
 
 fn main() {
-    let word_base = TextWordBase::new(String::from("res/word_base.txt"));
-    let solution_option = word_base.get_random_word();
+    let dictionary = TextDictionary::new(String::from("res/dictionary.txt"));
+    let solution_option = dictionary.get_random_word();
 
     match solution_option {
-        None => println!("Maybe the word base is empty?"),
+        None => println!("Maybe the dictionary is empty?"),
         Some(solution) => {
             let max_attempts = 6;
 
@@ -96,7 +96,7 @@ fn main() {
             while counter < max_attempts {
                 let attempt: String = read_input(5);
 
-                match word_base.find_word(&attempt) {
+                match dictionary.find_word(&attempt) {
                     Some(_) => {
                         let guesses: i32 = max_attempts - counter - 1;
                         full_match = check_word(&solution.word, &attempt);
@@ -115,7 +115,7 @@ fn main() {
 
                         counter += 1;
                     },
-                    None => println!("The guessed word is not in the word list.")
+                    None => println!("The guessed word is not in the dictionary.")
                 }
             }
 
