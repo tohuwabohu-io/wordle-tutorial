@@ -1,3 +1,3 @@
-pub mod word_base;
+pub mod dictionary;
 pub mod text;
 pub mod lang;

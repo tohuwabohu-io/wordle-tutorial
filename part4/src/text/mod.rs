@@ -1,1 +1,1 @@
-pub mod text_word_base;
+pub mod text_dictionary;

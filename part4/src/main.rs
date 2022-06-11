@@ -2,15 +2,15 @@ use colored::*;
 use std::io::stdin;
 
 use fancy_hangman::lang::locale::{get_app_language, replace_unicode};
-use fancy_hangman::text::text_word_base::TextWordBase;
-use fancy_hangman::word_base::WordBase;
+use fancy_hangman::text::text_dictionary::TextDictionary;
+use fancy_hangman::dictionary::Dictionary;
 
 fn main() {
-    let word_base = TextWordBase::new(String::from("res/word_base.txt"));
-    let solution_option = word_base.get_random_word();
+    let dictionary = TextDictionary::new(String::from("res/dictionary.txt"));
+    let solution_option = dictionary.get_random_word();
 
     match solution_option {
-        None => println!("Maybe the word base is empty?"),
+        None => println!("Maybe the dictionary is empty?"),
         Some(solution) => {
             let max_attempts = 6;
 
@@ -20,7 +20,7 @@ fn main() {
             while counter < max_attempts {
                 let attempt: String = read_input(5);
 
-                match word_base.find_word(&attempt) {
+                match dictionary.find_word(&attempt) {
                     Some(_) => {
                         let guesses: i32 = max_attempts - counter - 1;
                         full_match = check_word(&solution.word, &attempt);
@@ -39,7 +39,7 @@ fn main() {
 
                         counter += 1;
                     },
-                    None => println!("The guessed word is not in the word list.")
+                    None => println!("The guessed word is not in the dictionary.")
                 }
             }
 

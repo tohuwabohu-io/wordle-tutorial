@@ -4,8 +4,8 @@ use std::io::{BufRead, BufReader, Error, LineWriter, Write};
 
 use uuid::Uuid;
 use fancy_hangman::lang::locale::{AppLanguage, replace_unicode, get_app_language, parse_app_language};
-use fancy_hangman::text::text_word_base::TextWordBase;
-use fancy_hangman::word_base::{WordBase, WordEntry};
+use fancy_hangman::text::text_dictionary::TextDictionary;
+use fancy_hangman::dictionary::{Dictionary, DictionaryEntry};
 
 use clap::Parser;
 
@@ -25,7 +25,7 @@ fn main() -> std::io::Result<()> {
     let source_file = polish(&args.source_file, app_language)?;
     let counter = import(source_file, app_language)?;
 
-    println!("Added {} words to the word base!", counter);
+    println!("Added {} words to the dictionary!", counter);
 
     Ok(())
 }
@@ -69,15 +69,15 @@ fn polish(source_path: &str, app_language: AppLanguage) -> Result<String, Error>
     }
 }
 
-/// Import temporary file created by [polish] into the word base.
-/// Avoid duplicates when inserting a [WordEntry] into the word base.
+/// Import temporary file created by [polish] into the dictionary.
+/// Avoid duplicates when inserting a [DictionaryEntry] into the dictionary.
 ///
 /// # Arguments
 ///
 /// * `tmp_file_name` - A String that holds the name of the temp file created
 fn import(tmp_file_name: String, app_language: AppLanguage) -> Result<i32, Error> {
-    let word_base = TextWordBase::new(
-        String::from(format!("res/word_base_{}.txt", app_language.to_string().to_lowercase())));
+    let dictionary = TextDictionary::new(
+        String::from(format!("res/dictionary_{}.txt", app_language.to_string().to_lowercase())));
     let buf_reader = BufReader::new(File::open(tmp_file_name).unwrap());
 
     println!("Importing...");
@@ -86,7 +86,7 @@ fn import(tmp_file_name: String, app_language: AppLanguage) -> Result<i32, Error
     for line_result in buf_reader.lines() {
         let line = line_result.unwrap();
 
-        word_base.create_word(WordEntry { word: line });
+        dictionary.create_word(DictionaryEntry { word: line });
 
         counter += 1;
     }

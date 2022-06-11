@@ -1,5 +1,5 @@
-use fancy_hangman::text::text_word_base::TextWordBase;
-use fancy_hangman::word_base::{WordBase, WordEntry};
+use fancy_hangman::text::text_dictionary::TextDictionary;
+use fancy_hangman::dictionary::{Dictionary, DictionaryEntry};
 
 use crate::tools::{fill, get_sample_words, setup, teardown};
 
@@ -8,9 +8,9 @@ use crate::tools::{fill, get_sample_words, setup, teardown};
 fn test_create_word() {
     let file_path = setup();
 
-    let word_base = TextWordBase::new(file_path.clone());
+    let dictionary = TextDictionary::new(file_path.clone());
 
-    word_base.create_word(WordEntry{ word: String::from("rusty") });
+    dictionary.create_word(DictionaryEntry{ word: String::from("rusty") });
 
     teardown(file_path);
 }
@@ -20,10 +20,10 @@ fn test_find_word() {
     let file_path = setup();
     fill(&file_path, get_sample_words());
 
-    let word_base = TextWordBase::new(file_path.clone());
+    let dictionary = TextDictionary::new(file_path.clone());
 
     for word_str in get_sample_words() {
-        match word_base.find_word(word_str) {
+        match dictionary.find_word(word_str) {
             Some(word) => assert_eq!(word_str, word.word),
             None => assert!(false)
         }
@@ -36,10 +36,10 @@ fn test_find_word() {
 fn test_find_word_negative() {
     let file_path = setup();
 
-    let word_base = TextWordBase::new(file_path.clone());
+    let dictionary = TextDictionary::new(file_path.clone());
 
     for word_str in get_sample_words() {
-        match word_base.find_word(word_str) {
+        match dictionary.find_word(word_str) {
             Some(_) => assert!(false),
             None => assert!(true)
         }
@@ -54,9 +54,9 @@ fn test_read_random_word() {
 
     fill(&file_path, get_sample_words());
 
-    let word_base = TextWordBase::new(file_path.clone());
+    let dictionary = TextDictionary::new(file_path.clone());
 
-    match word_base.get_random_word() {
+    match dictionary.get_random_word() {
         Some(word) =>
             assert!(get_sample_words().contains(&word.word.as_str())),
         None => assert!(false)
@@ -69,9 +69,9 @@ fn test_read_random_word() {
 fn test_read_random_word_negative() {
     let file_path = setup();
 
-    let word_base = TextWordBase::new(file_path.clone());
+    let dictionary = TextDictionary::new(file_path.clone());
 
-    match word_base.get_random_word() {
+    match dictionary.get_random_word() {
         Some(_) => assert!(false),
         None => assert!(true)
     }
