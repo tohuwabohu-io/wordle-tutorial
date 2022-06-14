@@ -17,6 +17,7 @@ Run the game by executing `cargo run [language] [dictionary]` or `cargo run --bi
 Run the importer tool by executing `cargo run --bin import <source_path> [language] [dictionary]`
 
 If `language` is not set, it defaults to `"en"`.
+If `dictionary` is not set, it defaults to `"text"`.
 
 ## Import
 The import tool can be used to expand the dictionary. The tool automatically removes duplicates and entries with a size different of 5 characters and converts unicode characters to ASCII using any_ascii. German umlauts receive a special treatment.
