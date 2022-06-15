@@ -55,7 +55,7 @@ fn read_input(word_len: usize) -> String {
 
     loop {
         stdin().read_line(&mut input).unwrap();
-        let polished = replace_unicode(input.trim(), get_app_language());
+        let polished = replace_unicode(input.to_lowercase().trim(), get_app_language());
 
         if !validate_user_input(&polished, word_len) {
             println!("Invalid input: Your guess must have a size of {} characters. You entered {} characters.", word_len, polished.len());
