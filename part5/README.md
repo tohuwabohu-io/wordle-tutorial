@@ -26,8 +26,11 @@ The import tool can be used to expand the dictionary. The tool automatically rem
 To connect a database dictionary, you will need to install diesel cli with sqlite features. Alternatively, postgres can be used. You will find the necessary scripts in `res/db`.
 
 Run `diesel setup`
+
 Run `diesel create dictionary_migration`
+
 Put `create.sql` into `up.sql` and `drop.sql` into `down.sql`
+
 Run `diesel migrate`
 
 Then add test data to the dictionary table either by manually inserting it or by using the importer.

@@ -104,7 +104,7 @@ fn import(tmp_file_name: String, dictionary: Box<dyn Dictionary>) -> Result<i32,
     for line_result in buf_reader.lines() {
         let line = line_result.unwrap();
 
-        match dictionary.create_word(DictionaryEntry { word: line }) {
+        match dictionary.create_word(DictionaryEntry { word: line.to_lowercase() }) {
             None => {},
             Some(_) => {
                 counter += 1;
