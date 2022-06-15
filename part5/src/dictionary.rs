@@ -26,6 +26,6 @@ pub fn get_dictionary(app_language: AppLanguage, dictionary_flag: String) -> Box
                 app_language
             ))
         },
-        _ => Box::new(TextDictionary::new(format!("res/dictionary_{}.txt", app_language.to_string()))),
+        _ => Box::new(TextDictionary::new(format!("res/dictionary_{}.txt", app_language.to_string().to_lowercase()))),
     }
 }

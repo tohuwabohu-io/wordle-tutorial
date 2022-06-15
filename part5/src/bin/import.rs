@@ -73,7 +73,7 @@ fn polish(source_path: &str, app_language: AppLanguage) -> Result<String, Error>
             println!("processing file {}", source_path);
 
             for line_result in buf_reader.lines() {
-                let polished = replace_unicode(line_result.unwrap().as_str(), app_language);
+                let polished = replace_unicode(line_result.unwrap().to_lowercase().as_str(), app_language);
 
                 if polished.len() == 5 {
                     print!(".");
