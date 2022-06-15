@@ -1,0 +1,27 @@
+[package]
+name = "fancy-hangman"
+version = "0.1.0"
+edition = "2021"
+default-run = "wordle-rs"
+
+[[bin]]
+name = "wordle-rs"
+path = "src/main.rs"
+
+
+[[bin]]
+name = "import"
+path = "src/bin/import.rs"
+
+[dependencies]
+rand = "0.8.5"
+any_ascii = "0.3.1"
+sys-locale = "0.2.0"
+uuid = { version = "1.1.1", features = ["v4", "fast-rng"] }
+clap = { version = "3.1.18", features = ["derive"] }
+strum_macros = "0.24.0"
+dotenv = "0.15.0"
+chrono = "0.4.0"
+diesel = { version = "1.4.8", features = ["sqlite", "chrono"] }
+console =  "0.15"
+indicatif = "0.16.2"
